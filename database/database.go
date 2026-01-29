@@ -21,8 +21,8 @@ func InitDB(connectionString string) (*sql.DB, error) {
 	}
 
 	// Set connection pool settings (optional tapi recommended)
-	db.SetMaxOpenConns(5)
-	db.SetMaxIdleConns(2)
+	db.SetMaxOpenConns(25)
+	db.SetMaxIdleConns(5)
 
 	log.Println("Database connected successfully")
 	return db, nil
