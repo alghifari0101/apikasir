@@ -15,7 +15,7 @@ func NewProductRepository(db *sql.DB) *ProductRepository {
 }
 
 func (repo *ProductRepository) GetAll() ([]models.Product, error) {
-	query := "SELECT id, name, price, stock FROM products"
+	query := "SELECT id, name, price, stock FROM product"
 	rows, err := repo.db.Query(query)
 	if err != nil {
 		return nil, err
@@ -36,14 +36,14 @@ func (repo *ProductRepository) GetAll() ([]models.Product, error) {
 }
 
 func (repo *ProductRepository) Create(product *models.Product) error {
-	query := "INSERT INTO products (name, price, stock) VALUES ($1, $2, $3) RETURNING id"
+	query := "INSERT INTO product (name, price, stock) VALUES ($1, $2, $3) RETURNING id"
 	err := repo.db.QueryRow(query, product.Name, product.Price, product.Stock).Scan(&product.ID)
 	return err
 }
 
 // GetByID - ambil produk by ID
 func (repo *ProductRepository) GetByID(id int) (*models.Product, error) {
-	query := "SELECT id, name, price, stock FROM products WHERE id = $1"
+	query := "SELECT id, name, price, stock FROM product WHERE id = $1"
 
 	var p models.Product
 	err := repo.db.QueryRow(query, id).Scan(&p.ID, &p.Name, &p.Price, &p.Stock)
@@ -58,7 +58,7 @@ func (repo *ProductRepository) GetByID(id int) (*models.Product, error) {
 }
 
 func (repo *ProductRepository) Update(product *models.Product) error {
-	query := "UPDATE products SET name = $1, price = $2, stock = $3 WHERE id = $4"
+	query := "UPDATE product SET name = $1, price = $2, stock = $3 WHERE id = $4"
 	result, err := repo.db.Exec(query, product.Name, product.Price, product.Stock, product.ID)
 	if err != nil {
 		return err
@@ -77,7 +77,7 @@ func (repo *ProductRepository) Update(product *models.Product) error {
 }
 
 func (repo *ProductRepository) Delete(id int) error {
-	query := "DELETE FROM products WHERE id = $1"
+	query := "DELETE FROM product WHERE id = $1"
 	result, err := repo.db.Exec(query, id)
 	if err != nil {
 		return err
