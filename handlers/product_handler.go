@@ -75,7 +75,7 @@ func (h *ProductHandler) HandleProductByID(w http.ResponseWriter, r *http.Reques
 
 // GetByID - GET /api/produk/{id}
 func (h *ProductHandler) GetByID(w http.ResponseWriter, r *http.Request) {
-	parts := strings.Split(r.URL.Path, "/")
+	parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/"), "/")
 	if len(parts) < 3 {
 		http.Error(w, "Invalid ID", http.StatusBadRequest)
 		return
@@ -96,7 +96,7 @@ func (h *ProductHandler) GetByID(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
-	parts := strings.Split(r.URL.Path, "/")
+	parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/"), "/")
 	if len(parts) < 3 {
 		http.Error(w, "Invalid ID", http.StatusBadRequest)
 		return
@@ -124,7 +124,7 @@ func (h *ProductHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 // Delete - DELETE /api/produk/{id}
 func (h *ProductHandler) Delete(w http.ResponseWriter, r *http.Request) {
-	parts := strings.Split(r.URL.Path, "/")
+	parts := strings.Split(strings.TrimPrefix(r.URL.Path, "/"), "/")
 	if len(parts) < 3 {
 		http.Error(w, "Invalid ID", http.StatusBadRequest)
 		return
