@@ -46,6 +46,18 @@ func main() {
 	http.HandleFunc("/api/produk", productHandler.HandleProducts)
 	http.HandleFunc("/api/produk/", productHandler.HandleProductByID)
 
+	// Transaction
+	transactionRepo := repositories.NewTransactionRepository(db)
+	transactionService := services.NewTransactionService(transactionRepo)
+	transactionHandler := handlers.NewTransactionHandler(transactionService)
+
+	http.HandleFunc("/api/checkout", transactionHandler.HandleCheckout) // POST
+
+	// Report
+	reportHandler := handlers.NewReportHandler(transactionService)
+	http.HandleFunc("/api/report/hari-ini", reportHandler.GetDailyReport)
+	http.HandleFunc("/api/report", reportHandler.GetReportByRange)
+
 	// Start Server
 	port := config.Port
 	if port == "" {
